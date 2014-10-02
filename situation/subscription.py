@@ -2,8 +2,6 @@ import models
 import settings
 import logging
 import mailer
-import sms
-from twilio.rest import TwilioException
 
 LOGGER = logging.getLogger(__name__)
 
@@ -31,7 +29,6 @@ def should_notify(service, current_state, request_url):
                 LOGGER.info("SERVICE [" + service + "] IS " + current_state)
 
             send_emails(service, request_url, current_state)
-            send_smses(service, current_state)
             return True
 
     return False
@@ -71,38 +68,3 @@ def send_emails(service, request_url, current_state=None, twitter_tweet=None):
                     "Balanced {} is {}.".format(service, current_state) +
                     "\n\nThis is an automated notification from https://status.balancedpayments.com",
                     request_url)
-
-
-def send_smses(service, current_state=None, twitter_tweet=None):
-    # This is filthy. Don't judge me bro
-    if service == "DASH":
-        service = "DASHBOARD"
-
-    sms_subscribers = models.SMSSubscriber.gql("WHERE services IN (:1)", service)
-
-    if settings.DEBUG:
-        LOGGER.info(
-            "SENDING NOTIFICATION TO [" + str(sms_subscribers.count()) + "] SMS SUBSCRIBERS"
-        )
-
-    if service in settings.NOTIFY_SERVICES:
-        txt = sms.SMS()
-        for sms_subscriber in sms_subscribers:
-            try:
-                # Tweet
-                if(twitter_tweet):
-                    twitter_tweet = twitter_tweet.strip()
-
-                    txt.send(
-                        sms_subscriber.phone,
-                        "@balancedstatus: {} - {}".format(
-                            service, twitter_tweet))
-                # UP/DOWN
-                else:
-                    txt.send(
-                        sms_subscriber.phone,
-                        "Balanced {} is {}. Reply with STOP to unsubscribe.".format(
-                        service, current_state))
-            except TwilioException, e:
-                LOGGER.error("Failed to send SMS via Twilio - " + e.msg)
-                pass

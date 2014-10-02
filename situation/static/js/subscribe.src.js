@@ -70,40 +70,6 @@ $(document).ready(function() {
         }
     });
 
-    $("#sms-submit").click(function() {
-        if($(this).prop("disabled")) {
-            return;
-        }
-
-        var p = $("#sms-phone");
-        var services = $("#subscribe input[name='sms-subscribe[]']");
-
-        if(!isEmpty(p) && hasChecked(services)) {
-            disableFields($("#sms"));
-
-            $.ajax("/subscriptions/sms", {
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    phone: sanitizePhone($(p).val()),
-                    services: getCheckedValues(services)
-                },
-                success: function(result) {
-                    $("#sms .section-content .result.subscribed").show();
-                },
-                complete: function(result) {
-                    if(result.status !== 200) {
-                        var responseObject = JSON.parse(result.responseText);
-
-                        enableFields($("#sms"));
-                        $("#sms .section-content .result.error span").html(responseObject.error);
-                        $("#sms .section-content .result.error").show();
-                    }
-                }
-            });
-        }
-    });
-
     $("#e-submit").click(function() {
         if($(this).prop("disabled")) {
             return;

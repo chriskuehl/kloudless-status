@@ -26,15 +26,12 @@ from google.appengine.api import memcache
 from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 
-from twilio.rest import TwilioException
-
 import encoding
 import json
 import settings
 import tweeter
 import models
 import mailer
-import sms
 import subscription
 from uptime import graphite
 from uptime import librato
@@ -120,10 +117,6 @@ class TwitterHandler(TwitterBaseController):
                                          request_url=self.request.url,
                                          current_state=latest_tweet.status,
                                          twitter_tweet=latest_tweet.message)
-
-                subscription.send_smses(service=service,
-                                        current_state=latest_tweet.status,
-                                        twitter_tweet=latest_tweet.message)
 
         self.get()
 
@@ -309,53 +302,6 @@ class SubscribeEmailHandler(webapp2.RequestHandler):
         }))
 
 
-class SubscribeSMSHandler(webapp2.RequestHandler):
-
-    def post(self):
-        self.response.headers['Content-Type'] = 'application/json'
-
-        phone = self.request.get('phone')
-        services = self.request.get('services').rstrip(',')
-
-        query = db.GqlQuery(
-            "SELECT * FROM SMSSubscriber WHERE phone = :1",
-            phone)
-
-        number_rows = query.count()
-
-        if number_rows > 0:
-            self.response.status = 409
-            self.response.out.write(json.dumps({
-                "error": phone + " is already subscribed."
-            }))
-            return
-
-        txt = sms.SMS()
-        try:
-            txt.send(phone,
-                     "Successfully subscribed to Balanced "
-                     + services +
-                     " incidents. Reply with STOP to unsubscribe.")
-
-        except TwilioException, e:
-            LOGGER.error("Failed to send SMS via Twilio - " + e.msg)
-            self.response.status = 400
-            self.response.out.write(json.dumps({
-                "error": e.msg
-            }))
-            return
-
-        s = models.SMSSubscriber(phone=phone,
-                                 services=services.split(','))
-
-        s.put()
-
-        self.response.out.write(json.dumps({
-            "subscribed": "sms",
-            "services": services.split(',')
-        }))
-
-
 class UnsubscribeEmailHandler(webapp2.RequestHandler):
 
     def get(self, base64email):
@@ -385,6 +331,5 @@ app = webapp2.WSGIApplication([
     ('/twitter/messages/latest', TwitterLatestMessageHandler),
     ('/twitter/(.*)', TwitterHandler),
     ('/subscriptions/email', SubscribeEmailHandler),
-    ('/subscriptions/email/(.*)', UnsubscribeEmailHandler),
-    ('/subscriptions/sms', SubscribeSMSHandler)
+    ('/subscriptions/email/(.*)', UnsubscribeEmailHandler)
 ], debug=settings.DEBUG)

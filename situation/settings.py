@@ -78,13 +78,6 @@ LIBRATO_UPTIME = {
     }
 }
 
-# TWILIO API credentials
-TWILIO = {
-    'account_sid': 'XXXX',
-    'auth_token': 'XXXX',
-    'from_number': 'XXXX'
-}
-
 DEBUG = True
 
 # Currently DASHBOARD does not send out notifications
