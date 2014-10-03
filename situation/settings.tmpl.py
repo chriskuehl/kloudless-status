@@ -10,72 +10,9 @@ TWITTER = {
      }
 }
 
-
-# We're pulling data from graphite to calculate the uptime. Each service has a
-# list of counters that it uses to help calculate the % of successful / failed
-# requests.
-UPTIME = {
-    'root_uri': 'http://graphite.balancedpayments.com/render/?',
-    'username': 'username',
-    'password': 'password',
-    'services': {
-        'DASH': {
-            'OK_TARGETS': [
-                'stats_counts.status.dashboard.2xx',
-                'stats_counts.status.dashboard.3xx',
-                'stats_counts.status.dashboard.4xx',
-                ],
-            'ERROR_TARGETS': [
-                'stats_counts.status.dashboard.5xx',
-                'stats_counts.status.dashboard.timeout',
-                ]
-        },
-        'JS': {
-            'OK_TARGETS': [
-                'stats_counts.status.balanced-js.2xx',
-                'stats_counts.status.balanced-js.3xx',
-                'stats_counts.status.balanced-js.4xx',
-                ],
-            'ERROR_TARGETS': [
-                'stats_counts.status.balanced-js.5xx',
-                'stats_counts.status.balanced-js.timeout',
-                ]
-        },
-        'API': {
-            'OK_TARGETS': [
-                'stats_counts.status.balanced-api.2xx',
-                'stats_counts.status.balanced-api.3xx',
-                'stats_counts.status.balanced-api.4xx',
-                ],
-            'ERROR_TARGETS': [
-                'stats_counts.status.balanced-api.5xx',
-                'stats_counts.status.balanced-api.timeout',
-                ]
-        }
-    }
-}
-
 # The e-mail address to send notifications from
 EMAIL = {
     'sender': 'Balanced Status <noreply@balancedpayments.com>'
-}
-
-LIBRATO_UPTIME = {
-    'root_uri': 'https://metrics-api.librato.com/v1/metrics/',
-    'username': 'FIXME',
-    'password': 'FIXME',
-    'services': {
-        'API': {
-            'SOURCE': '*bapi-live*',
-            'TOTAL_TARGETS': [
-                'AWS.ELB.RequestCount',
-            ],
-            'ERROR_TARGETS': [
-                'AWS.ELB.HTTPCode_Backend_5XX',
-                'AWS.ELB.HTTPCode_ELB_5XX',
-            ]
-        },
-    }
 }
 
 DEBUG = True

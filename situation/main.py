@@ -33,8 +33,8 @@ import tweeter
 import models
 import mailer
 import subscription
-from uptime import graphite
-from uptime import librato
+
+import random
 
 
 LOGGER = logging.getLogger(__name__)
@@ -202,10 +202,6 @@ class UptimeHandler(TwitterBaseController):
 
     def __init__(self, request, response):
         super(UptimeHandler, self).__init__(request, response)
-        self.uptime_managers = [
-            graphite.Calculator(**settings.UPTIME),
-            librato.Calculator(**settings.LIBRATO_UPTIME)
-        ]
 
     def get(self, *a, **kw):
         self.response.headers['Content-Type'] = 'application/json'
@@ -213,26 +209,21 @@ class UptimeHandler(TwitterBaseController):
 
     @cache
     def _get(self):
-        uptimes = []
-        for manager in self.uptime_managers:
-            uptimes.extend(manager.refresh())
         raw = {
-            'uptime': dict(uptimes)
+            'uptime': {}
         }
 
         for service in tweeter.SERVICES:
-            # if a service is UP and a tweet says it's down, then the down
-            # takes precedence
-            _s = raw['uptime'][service]
+            # we need to have a state, so if we can't find one (e.g. because
+            # the last tweet was a long time ago), default to UP
+            tweet_state = self.tweet_manager.get_latest_state(service) or 'UP'
 
-            if _s['status'] == 'UP':
-                tweet_state = self.tweet_manager.get_latest_state(
-                    service
-                )
+            raw['uptime'][service] = {
+                'status': tweet_state,
+                'uptime': random.uniform(0, 100)
+            }
 
-                _s['status'] = tweet_state or _s['status']
-
-            subscription.should_notify(service, _s['status'], self.request.url)
+            subscription.should_notify(service, tweet_state, self.request.url)
 
         return encoding.to_json(raw)
 
