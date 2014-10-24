@@ -39,7 +39,7 @@ class TwitterStatusProcessor(object):
         spec = spec.split('-')
         service = spec[0]
         if len(spec) > 1:
-            state = spec[1]
+            state = spec[1].upper()
         else:
             state = ''
         if service not in SERVICES or state not in STATUSES:
