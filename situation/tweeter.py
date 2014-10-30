@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from datetime import datetime, timedelta
 import logging
 
 import tweepy
@@ -132,10 +133,11 @@ class TwitterStatusProcessor(object):
         tweets = models.Tweet.all().filter(
             'service = ', service
         ).filter(
-            'created_date <=', max_date.strftime('%Y-%m-%d')
+            'created_at <=', max_date
         ).filter(
-            'created_date >', min_date.strftime('%Y-%m-%d')
+            'created_at >', min_date
         )
+
         return tweets
 
     def get_last_message(self, service):
@@ -156,3 +158,54 @@ class TwitterStatusProcessor(object):
             if tweet.status:
                 return tweet.status
         return None
+
+    def get_uptime_month(self, service):
+        """Find the uptime for a given month by calculating the number of
+        seconds the service was down over the number of seconds in a month.
+
+        We make the assumption that 35 days ago, the service was up. We then
+        read all tweets since then, modifying the state and calculating
+        downtime as we go.
+
+        We start early in case the month starts with downtime. As long as all
+        downtime lasts less than five days, we can make an accurate calculation
+        for 30 days, which is all we care about.
+        """
+        DAYS_PER_MONTH = 30
+        GRACE_PERIOD = timedelta(days=5) # in case month starts with downtime
+
+        end = datetime.now()
+        start = end - timedelta(days=DAYS_PER_MONTH)
+
+        tweets = self.get_by_dates(service, start - GRACE_PERIOD, end) \
+            .order('created_at')
+
+        # read tweets, calculate downtime
+        currently_up = True
+        last_update = start
+        total_downtime = timedelta()
+
+        for tweet in tweets:
+            if not tweet.status:
+                continue
+
+            now_up = tweet.status == 'UP'
+
+            if now_up == currently_up:
+                continue
+
+            if now_up:
+                # only add the downtime if the it happened after the start
+                if tweet.created_at > last_update:
+                    total_downtime += (tweet.created_at - last_update)
+            else:
+                last_update = tweet.created_at
+
+            currently_up = now_up
+
+        if not currently_up:
+            total_downtime += (end - last_update)
+
+        seconds = lambda dt: float(dt.seconds + (dt.days * 24 * 60 * 60))
+        downtime = (seconds(total_downtime) / seconds(end - start))
+        return (1 - downtime) * 100

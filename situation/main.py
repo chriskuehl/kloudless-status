@@ -220,7 +220,7 @@ class UptimeHandler(TwitterBaseController):
 
             raw['uptime'][service] = {
                 'status': tweet_state,
-                'uptime': random.uniform(0, 100)
+                'uptime': self.tweet_manager.get_uptime_month(service)
             }
 
             subscription.should_notify(service, tweet_state, self.request.url)
