@@ -1,4 +1,4 @@
-application: balancedsituation
+application: kloudless-status-2
 version: 9
 runtime: python27
 api_version: 1
@@ -15,19 +15,19 @@ handlers:
 
 - url: /uptime/post
   script: main.app
-  secure: always
+  secure: never
   login: admin
   auth_fail_action: unauthorized
 
 - url: /twitter/post
   script: main.app
-  secure: always
+  secure: never
   login: admin
   auth_fail_action: unauthorized
 
 - url: .*
   script: main.app
-  secure: always
+  secure: never
 
 libraries:
 - name: webapp2
