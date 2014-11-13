@@ -206,7 +206,6 @@ function renderMessage(message) {
     return '<div class="issue" data-state="' + message.status + '">' +
         '<p>' + linkify(message.message) + '</p>' +
         '<time datetime="' + created_at + '">' + formattedTime + '</time>' +
-        '<a href="https://twitter.com/balancedstatus/status/' + message.tweet_id + '" class="tweet" target="_blank">@balancedstatus</a>' +
         '</div>';
 }
 

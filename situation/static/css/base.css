@@ -1595,14 +1595,6 @@ hr {
   font-size: 14px;
   color: #666;
 }
-.recent-updates .tweet {
-  text-indent: -4000px;
-  background: url(/static/images/status/icon_twitter_sm.png) 0 0;
-  width: 15px;
-  height: 10px;
-  display: inline-block;
-  margin-left: 20px;
-}
 .recent-updates time {
   font-family: 'Bitter', serif;
   font-size: 11px;
@@ -1619,16 +1611,6 @@ hr {
   text-align: right;
   padding-right: 30px;
   margin-bottom: 16px;
-}
-.tweet-up {
-  text-indent: -4000px;
-  background: url(/static/images/status/button_twitter.png) 0 0;
-  width: 165px;
-  height: 31px;
-  display: inline-block;
-}
-.tweet-up:hover {
-  background-position: -165px 0;
 }
 .uptime {
   background-color: #ffffff;
@@ -1783,14 +1765,6 @@ div.messages .issue em {
   font-size: 13px;
   color: #b3b3b3;
 }
-div.messages .issue .tweet {
-  text-indent: -4000px;
-  background: url(/static/images/status/icon_twitter_sm.png) 0 0;
-  width: 15px;
-  height: 10px;
-  display: inline-block;
-  margin-left: 20px;
-}
 div.messages .load {
   border-top: 1px solid #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
@@ -1821,4 +1795,10 @@ div.messages .load button:hover {
   background: #96B45B;
   border-color: #78A22F;
   box-shadow: none;
+}
+
+/* XXX: we use a different name for the Twitter class since AdBlock will block
+ * it otherwise; see https://github.com/FortAwesome/Font-Awesome/issues/1799 */
+.icon-kltwitter:before {
+  content: "\f099";
 }
