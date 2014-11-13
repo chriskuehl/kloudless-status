@@ -1452,7 +1452,7 @@ select:focus:required:invalid:focus {
   color: #ef4135 !important;
 }
 body {
-  background-color: black;
+  background-color: #43505e;
   margin: 90px auto 0;
 }
 .clear {
@@ -1492,7 +1492,7 @@ hr {
   text-align: center;
 }
 .summary h2 {
-  background-color: #1a1a1a;
+  background-color: #3e5574;
   display: inline-block;
   width: auto;
   padding: 0 30px;
@@ -1556,7 +1556,7 @@ hr {
   position: relative;
 }
 .recent-updates {
-  background-color: #e6e7e8;
+  background-color: #edf3fa;
 }
 .recent-updates ul,
 .recent-updates li {
