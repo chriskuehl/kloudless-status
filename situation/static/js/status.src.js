@@ -20,11 +20,17 @@ var truncateDecimals = function(num, decimalPlaces) {
 };
 
 var setServiceStatus = function (service, status) {
+    var text = {
+      'UP': 'Everything\'s good.',
+      'DOWN': 'Having downtime.',
+      'ISSUE': 'Having problems.'
+    };
     $('.services.stc .' + service + ' .uptime-image')
         .removeClass('ISSUE')
         .removeClass('DOWN')
         .removeClass('UP')
-        .addClass(status);
+        .addClass(status)
+        .text(text[status]);
 };
 
 var loadUptime = function () {
@@ -56,7 +62,7 @@ var loadMessages = function (offset) {
             if (msg) {
                 message = renderMessage(msg);
             } else {
-                message = '<em>None</em>';
+                message = '(no recent updates)';
             }
             $('.' + service, '.recent-updates').html(message);
         }

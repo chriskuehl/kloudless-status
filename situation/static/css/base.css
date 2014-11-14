@@ -1206,37 +1206,17 @@ select:focus:required:invalid:focus {
 .invisible {
   visibility: hidden;
 }
-/* Our less */
-@font-face {
-  font-family: 'NimbusSanNov-Reg';
-  src: url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_0_0.eot');
-  src: url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_0_0.eot?#iefix') format('embedded-opentype'), url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_0_0.woff') format('woff'), url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_0_0.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'NimbusSanNov-Bla';
-  src: url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_1_0.eot');
-  src: url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_1_0.eot?#iefix') format('embedded-opentype'), url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_1_0.woff') format('woff'), url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_1_0.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'NimbusSanNov-Med';
-  src: url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_2_0.eot');
-  src: url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_2_0.eot?#iefix') format('embedded-opentype'), url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_2_0.woff') format('woff'), url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_2_0.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'NimbusSanNov-Bol';
-  src: url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_3_0.eot');
-  src: url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_3_0.eot?#iefix') format('embedded-opentype'), url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_3_0.woff') format('woff'), url('https://d3n06lmttbcmxe.cloudfront.net/css/fonts/241122_3_0.ttf') format('truetype');
-}
 /* Used in subscribe bar */
 /*   detail table   */
 #subscribe {
   background-color: #333333;
   padding: 0px;
-  display: block;
+  display: none; /* block */
   position: absolute;
   top: 0px;
   left: 25px;
-  font-family: 'NimbusSanNov-Med';
+  font-family: 'Open Sans';
+  font-weight: 800;
   width: 318px;
   z-index: 999999;
 }
@@ -1287,10 +1267,10 @@ select:focus:required:invalid:focus {
   padding: 10px 20px;
   float: right;
   color: #ffffff;
-  font-family: 'NimbusSanNov-Bol';
+  font-family: 'Open Sans';
+  font-weight: 800;
   text-transform: uppercase;
   font-size: 12px;
-  letter-spacing: 0.2em;
   width: 238px;
 }
 #subscribe .base .copy.close-content {
@@ -1313,7 +1293,8 @@ select:focus:required:invalid:focus {
 }
 #subscribe .content header p {
   color: #ffffff;
-  font-family: 'NimbusSanNov-Med';
+  font-family: 'Open Sans';
+  font-weight: 800;
   margin-bottom: 0px;
 }
 #subscribe .content section {
@@ -1452,8 +1433,9 @@ select:focus:required:invalid:focus {
   color: #ef4135 !important;
 }
 body {
-  background-color: #43505e;
-  margin: 90px auto 0;
+  background-color: #3e5574;
+/*  background-color: #43505e; */
+  margin: 0;
 }
 .clear {
   clear: both;
@@ -1463,9 +1445,20 @@ hr {
   border-top: 0px;
 }
 .logo {
+  margin-bottom: 20px;
+  height: 95px;
+  position: relative;
+}
+
+.logo > a {
   display: block;
-  margin-bottom: 50px;
-  text-align: center;
+  width: 254px;
+  height: 92px;
+
+  position: absolute;
+  left: 50%;
+  top: 12px;
+  margin-left: -430px; /* -127 to center */
 }
 .stc > * {
   width: 940px;
@@ -1473,20 +1466,34 @@ hr {
 }
 .uptime-image {
   display: block;
-  text-indent: -4000px;
-  width: 156px;
-  height: 156px;
+  width: 200px;
   margin: auto;
   position: relative;
+
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 20px 0;
+
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  color: #444;
+
+  background-color: #888;
+  opacity: 0.8;
 }
 .uptime-image.UP {
-  background: url(/static/images/status/icon_UP.png) 0 0 no-repeat;
+  font-weight: 700;
+  background-color: #C6FFC9;
+  opacity: 1;
 }
 .uptime-image.DOWN {
-  background: url(/static/images/status/icon_DOWN.png) 0 0 no-repeat;
+  font-weight: 700;
+  background-color: rgb(255, 214, 214);
+  opacity: 1;
 }
 .uptime-image.ISSUE {
-  background: url(/static/images/status/icon_ISSUE.png) 0 0 no-repeat;
+  font-weight: 700;
+  background-color: #abc;
+  opacity: 1;
 }
 .summary {
   text-align: center;
@@ -1506,8 +1513,8 @@ hr {
   font-size: 14px;
   color: black;
   text-transform: uppercase;
-  font-family: 'NimbusSanNov-Bla';
-  letter-spacing: 2px;
+  font-family: 'Open Sans';
+  font-weight: 800;
   text-align: right;
   padding-right: 20px;
   color: #999;
@@ -1516,9 +1523,13 @@ hr {
 .summary time {
   font-size: 13px;
   color: white;
-  font-family: 'Bitter', serif;
-  font-weight: normal;
+  font-family: 'Open Sans';
+  font-weight: 800;
   vertical-align: middle;
+}
+.services {
+  background-color: #43505e;
+  padding-top: 20px;
 }
 .services ul,
 .services li {
@@ -1528,19 +1539,20 @@ hr {
 .services li {
   display: inline-block;
   width: 240px;
-  height: 295px;
   margin: auto;
   position: relative;
+  padding-bottom: 25px;
 }
 .services li h3 {
   margin: 0 auto 35px;
   background-color: white;
-  font-family: 'Bitter', serif;
-  font-weight: 600;
-  font-size: 13px;
-  border-radius: 5px;
+  font-family: 'Open Sans';
+  font-weight: 400;
+  font-size: 18px;
+  border-radius: 3px;
   width: 130px;
   position: relative;
+  padding: 5px;
 }
 .services svg {
   position: absolute;
@@ -1596,17 +1608,18 @@ hr {
   color: #666;
 }
 .recent-updates time {
-  font-family: 'Bitter', serif;
+  font-family: 'Open Sans';
+  font-weight: 700;
   font-size: 11px;
-  font-style: italic;
-  color: #000;
+  color: #222;
 }
 .recent-updates h3 {
-  font-size: 14px;
-  color: black;
+  font-size: 16px;
+  color: #444;
   text-transform: uppercase;
-  font-family: 'NimbusSanNov-Bla';
-  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: 'Open Sans';
   line-height: 1.25em;
   text-align: right;
   padding-right: 30px;
@@ -1634,9 +1647,10 @@ hr {
 .uptime li.API h1,
 .uptime li.JS h1,
 .uptime li.DASH h1 {
-  font-size: 48px;
-  color: #999;
-  font-family: 'HelveticaNeue-Bold', 'Helvetica Neue Bold', Arial, sans-serif;
+  font-size: 38px;
+  color: #555;
+  font-family: 'Open Sans', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
 }
 .uptime li.API h1 span,
 .uptime li.JS h1 span,
@@ -1659,11 +1673,11 @@ hr {
   padding-left: 25px;
 }
 .uptime h3 {
-  font-size: 14px;
-  color: black;
+  font-size: 16px;
+  color: #444;
   text-transform: uppercase;
-  font-family: 'NimbusSanNov-Bla';
-  letter-spacing: 2px;
+  font-family: 'Open Sans';
+  font-weight: 700;
   line-height: 1.25em;
   text-align: right;
   padding-right: 30px;
@@ -1748,22 +1762,22 @@ div.messages .JS .issue {
   min-width: 194px;
 }
 div.messages .issue {
-  background-color: #000;
+  background-color: #43505e;
   margin: 0 10px 10px;
   padding: 10px;
   border-radius: 4px;
 }
 div.messages .issue time {
-  font-family: 'Bitter', serif;
+  font-family: 'Open Sans';
+  font-weight: 700;
   font-size: 11px;
-  font-style: italic;
-  color: #fff;
+  color: #b3b3b3;
 }
 div.messages .issue p,
 div.messages .issue em {
   font-family: 'HelveticaNeue-Roman', 'Helvetica Neue Roman', Arial, sans-serif;
   font-size: 13px;
-  color: #b3b3b3;
+  color: white;
 }
 div.messages .load {
   border-top: 1px solid #d9d9d9;
@@ -1788,7 +1802,6 @@ div.messages .load button {
   margin: 8px;
   text-transform: uppercase;
   height: auto;
-  letter-spacing: 2px;
   border: 2px solid #698e29;
 }
 div.messages .load button:hover {
