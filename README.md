@@ -1,49 +1,80 @@
-# Balanced Status Dashboard
+# Kloudless Status Dashboard
 
-https://status.balancedpayments.com
+This app powers the [Kloudless Status Dashboard][http://status.kloudless.com].
 
-The status page consists of several sections:
+# Publishing statuses
 
-* The top portion displays the service name and an icon for its current state
-* The upper middle portion displays the uptime as a percentage of non-error
-  requests over the last 30 days
-* The middle portion displays informational messages
-* The lower portion displays issues with behavior
-* The top left hand corner allows users to subscribe to notifications on service
-UP and DOWN via EMAIL and SMS
+To update the status, post a tweet of the format:
 
-## Message Display Behavior
+    ${SERVICE}-${STATUS}: ${COMMENT}
 
-Messages are fed into the system via the @balancedstatus Twitter account.
+where SERVICE is one of {API,JS,DASH}, STATUS is one of {UP,DOWN,ISSUE}, and
+COMMENT is some free-form description.
 
-Messages take the format
+Examples:
 
-`<SYSTEM>-<STATE>: <MESSAGE>`; e.g.
+* API-DOWN: everything is on fire
+* API-UP: it's back now
+* JS-NOTICE: someone deleted the javascript
+* DASH-DOWN: helpppp meeee
 
-* `DASH-UP: Everything is normal`
-* `API-ISSUE: We are experiencing network latency`
-* `API-DOWN: Database disks caught fire`
-* `JS: Read our postmortem at: http://goo.gl/hV7gVh` Tweeets send out to subscribers via either EMAIL or SMS
+## Development setup
 
-SYSTEM is one of `API`, `JS`, `DASH`
-STATE (OPTIONAL) is one of `UP`, `DOWN`, `ISSUE`
+1. Download the [Google App Engine
+   SDK](https://cloud.google.com/appengine/downloads) (for Python)
+2. Extract it somewhere (Linux) or run the installer (OS X).
+3. From the root of this repo, run:
 
-Messages with a state are displayed in the lower portion of the page
-indefinitely, `ISSUE` or `DOWN` messages will change the icon of the
-corresponding service. These messages must be followed by an `UP` state message
-in order to revert the displayed icon to its natural state.
+       dev_appserver.py --host 0.0.0.0 --admin_host 0.0.0.0 \
+           --clear_datastore 1 situation/
 
-Messages without a state are displayed in the upper middle portion of the page
-for 24 hours.
+   **Note:** `dev_appserver.py` is an executable that comes from the App Engine
+   SDK. It might not be on your PATH, so adjust as necessary.
 
-## System state behavior
+   This will launch the app at [localhost:8080](http://localhost:8080/) and a
+   mock appserver console at [localhost:8000](http://localhost:8000/).
 
-The state of a system will be degraded as described in the above section,
-additionally if the number of successful requests served in the last *5*
-minutes drops below *99%* then the system will automatically go into an `ISSUE`
-state, if the number of successful requests in the same period drops below
-*90%* then the system will be in the `DOWN` state.
+   If you want cron jobs to run (e.g. to fetch twitter messages or calculate
+   uptime), you will need to trigger them manually from the appserver console
+   (in development mode, they don't run automatically).
 
-## Tests
+Changes you make to any file should take effect immediately. If you want to
+clear the datastores, just quit (`^C`) and re-start the app.
 
-    python tests/__init__.py /usr/local/google_appengine/ tests
+## Deploying to Google App Engine
+
+To deploy to Google App Engine, you need your Google Apps account to have
+"Developer" permissions to the app.
+
+## Setting up OAuth2 authentication
+
+Instead of using password auth (which is complicated if you use 2FA), you
+should set up OAuth2 with the App Engine SDK.
+
+From the root of this git repo, run
+
+    appcfg.py --oauth2 list_versions situation/
+
+...to configure OAuth2. (`list_versions` is just a harmless command, rather
+than e.g. trying to deploy). It will launch a web browser and prompt you to
+grant permission.
+
+(If you're using e.g. vagrant for development, it might do something crazy like
+try to launch lynx to authorize the token, which will fail since it doesn't
+support JavaScript. You can pass `--noauth_local_webserver` and follow the
+instructions instead.)
+
+## Deploying
+
+Deploying is really easy once OAuth2 is ready. From the root of this repo:
+
+    appcfg.py --oauth2 update situation/
+
+You might see a bunch of warnings about mimetypes, but you can probably just
+ignore them?
+
+Deploying takes ~15 seconds, and will update the live site immediately. The app
+is available at:
+
+* [status.kloudless.com](http://status.kloudless.com/)
+* [kloudless-status-2.appspot.com](http://kloudless-status-2.appspot.com)
