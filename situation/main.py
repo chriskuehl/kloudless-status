@@ -276,9 +276,9 @@ class SubscribeEmailHandler(webapp2.RequestHandler):
 
         mail = mailer.Mail()
         mail.send(email,
-                  "Successfully subscribed to Balanced " +
+                  "Successfully subscribed to Kloudless " +
                   services + " incidents",
-                  "You successfully subscribed to Balanced " +
+                  "You successfully subscribed to Kloudless " +
                   services + " incidents.",
                   self.request.url)
 

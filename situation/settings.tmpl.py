@@ -12,7 +12,7 @@ TWITTER = {
 
 # The e-mail address to send notifications from
 EMAIL = {
-    'sender': 'Balanced Status <noreply@balancedpayments.com>'
+    'sender': 'Kloudless Status <noreply@kloudless.com>'
 }
 
 DEBUG = True

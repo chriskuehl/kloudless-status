@@ -55,16 +55,16 @@ def send_emails(service, request_url, current_state=None, twitter_tweet=None):
 
                 mail.send(
                     email_subscriber.email,
-                    "Tweet from @balancedstatus",
+                    "Tweet from @KloudlessAPI",
                     "{}".format(twitter_tweet) +
-                    "\n\nThis is an automated notification from https://status.balancedpayments.com",
+                    "\n\nThis is an automated notification from https://status.kloudless.com",
                     request_url)
             # UP/DOWN
             else:
                 mail.send(
                     email_subscriber.email,
-                    "Balanced {} is {}".format(
+                    "Kloudless {} is {}".format(
                         service, current_state),
-                    "Balanced {} is {}.".format(service, current_state) +
-                    "\n\nThis is an automated notification from https://status.balancedpayments.com",
+                    "Kloudless {} is {}.".format(service, current_state) +
+                    "\n\nThis is an automated notification from https://status.kloudless.com",
                     request_url)
