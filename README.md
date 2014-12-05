@@ -1,15 +1,16 @@
-# Kloudless Status Dashboard
+Kloudless Status Dashboard
+======
 
-This app powers the [Kloudless Status Dashboard][http://status.kloudless.com].
+This app powers the [Kloudless Status Dashboard](http://status.kloudless.com).
 
-# Publishing statuses
+## Publishing statuses
 
 To update the status, post a tweet of the format:
 
     ${SERVICE}-${STATUS}: ${COMMENT}
 
-where SERVICE is one of {API,JS,DASH}, STATUS is one of {UP,DOWN,ISSUE}, and
-COMMENT is some free-form description.
+where `SERVICE` is one of `{API,JS,DASH}`, `STATUS` is one of
+`{UP,DOWN,ISSUE}`, and `COMMENT` is some free-form description.
 
 Examples:
 
@@ -25,8 +26,8 @@ Examples:
 2. Extract it somewhere (Linux) or run the installer (OS X).
 3. From the root of this repo, run:
 
-       dev_appserver.py --host 0.0.0.0 --admin_host 0.0.0.0 \
-           --clear_datastore 1 situation/
+        dev_appserver.py --host 0.0.0.0 --admin_host 0.0.0.0 \
+            --clear_datastore 1 situation/
 
    **Note:** `dev_appserver.py` is an executable that comes from the App Engine
    SDK. It might not be on your PATH, so adjust as necessary.
@@ -46,7 +47,7 @@ clear the datastores, just quit (`^C`) and re-start the app.
 To deploy to Google App Engine, you need your Google Apps account to have
 "Developer" permissions to the app.
 
-## Setting up OAuth2 authentication
+### Pre-req: setting up OAuth2 authentication
 
 Instead of using password auth (which is complicated if you use 2FA), you
 should set up OAuth2 with the App Engine SDK.
@@ -64,7 +65,7 @@ try to launch lynx to authorize the token, which will fail since it doesn't
 support JavaScript. You can pass `--noauth_local_webserver` and follow the
 instructions instead.)
 
-## Deploying
+### Actually Deploying
 
 Deploying is really easy once OAuth2 is ready. From the root of this repo:
 
@@ -73,8 +74,26 @@ Deploying is really easy once OAuth2 is ready. From the root of this repo:
 You might see a bunch of warnings about mimetypes, but you can probably just
 ignore them?
 
-Deploying takes ~15 seconds, and will update the live site immediately. The app
-is available at:
+Deploying takes ~15 seconds, and will update the live site immediately.
+
+## About
+
+This app is a fork of the [Balanced Payments](https://balancedpayments.com/)
+status dashboard. Some info about their dashboard:
+
+* [Blog post about it](http://blog.balancedpayments.com/status-page/)
+* [Live status page](https://status.balancedpayments.com/)
+* [GitHub repo](https://github.com/balanced/status.balancedpayments.com)
+
+The main changes made in this fork are:
+
+* Removed SMS features
+* Minor HTML changes/improvements
+* Remove integration with Graphite and Librato, instead calculate uptime by
+  measure time between down/up tweets
+* Remove Balanced Payments branding, add Kloudless branding
+
+The deployed app is available at:
 
 * [status.kloudless.com](http://status.kloudless.com/)
 * [kloudless-status-2.appspot.com](http://kloudless-status-2.appspot.com)
