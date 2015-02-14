@@ -10,14 +10,19 @@ To update the status, post a tweet of the format:
     ${SERVICE}-${STATUS}: ${COMMENT}
 
 where `SERVICE` is one of `{API,JS,DASH}`, `STATUS` is one of
-`{UP,DOWN,ISSUE}`, and `COMMENT` is some free-form description.
+`{UP,DOWN,NOTICE}`, and `COMMENT` is some free-form description.
 
 Examples:
 
 * API-DOWN: everything is on fire
 * API-UP: it's back now
-* JS-NOTICE: someone deleted the javascript
+* JS-ISSUE: someone deleted the javascript
 * DASH-DOWN: helpppp meeee
+
+You can also post a info tweet that won't change the service's status. Just
+omit the dash and status, e.g.
+
+* API: some generic notice that doesn't affect the status
 
 ## Development setup
 
