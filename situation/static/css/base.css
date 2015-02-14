@@ -1559,6 +1559,7 @@ hr {
   width: 240px;
   height: 295px;
   left: 0;
+  pointer-events: none;
 }
 .services path {
   stroke: #808080;
