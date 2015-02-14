@@ -104,8 +104,10 @@ body {
 a {
   color: #58595b;
 }
+.issue a {
+  color: rgb(92, 157, 213);
+}
 a:hover {
-  color: #78a22f;
   text-decoration: underline;
 }
 .row {
