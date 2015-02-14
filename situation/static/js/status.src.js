@@ -2,7 +2,7 @@ var timer = null;
 var intervalSeconds = 15;
 var interval = 1000 * intervalSeconds;
 var SERVICES = ['API', 'JS', 'DASH'];
-var DISPLAYABLE_STATUSES = ['UP', 'DOWN', 'ISSUE'];
+var DISPLAYABLE_STATUSES = ['UP', 'DOWN', 'ISSUE', ''];
 var ERROR_STATE = 'DOWN';
 
 var loadData = function () {
